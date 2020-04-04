@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>math.js | pretty printing with MathJax</title>
+
+  <script src="https://unpkg.com/mathjs@6.6.2/dist/math.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML.js"></script>
+
+</head>
+<body>
+
+<h1>
+  Expression evaluation with math.js, pretty printing with MathJax
+</h1>
+
+<table>
+  <tr>
+    <th>Expression</th>
+    <td><input type="text" id="expr"/></td>
+  </tr>
+  <tr>
+    <th>Pretty print</th>
+    <td><div id="pretty">$$$$</div></td>
+  </tr>
+  <tr>
+    <th>Result</th>
+    <td><div id="result"></div></td>
+  </tr>
+</table>
+
+<script>
+  const expr = document.getElementById('expr')
+  const pretty = document.getElementById('pretty')
+  const result = document.getElementById('result')
+  let parenthesis = 'keep'
+  let implicit = 'hide'
+
+  // initialize with an example expression
+  expr.value = 'sqrt(75 / 3) + det([[-1, 2], [3, 1]]) - sin(pi / 4)^2'
+  pretty.innerHTML = '$$' + math.parse(expr.value).toTex({parenthesis: parenthesis}) + '$$'
+  result.innerHTML = math.format(math.evaluate(expr.value))
+
+  
+  }
+</script>
+
+</body>
+</html>
