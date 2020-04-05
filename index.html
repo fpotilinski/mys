@@ -218,7 +218,7 @@ function ejecutar(){
 	
 	var predictor = 0;
 	var corrector = 0;
-	for (i = 0; i <= k; i++){
+	for (i = to; i <= k; i++){
 		dataX2.push(i*h);
 		
 		predictor = (u + h*(evaluarFuncion(h(i-1))));
