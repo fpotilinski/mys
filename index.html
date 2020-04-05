@@ -225,8 +225,8 @@ function ejecutar(){
 		
 		predictor = (u + h*(evaluarFuncion(tk)));
 		
-		tk = h*(i-1);
-		corrector = (u + (h/2)*(evaluarFuncion(tk) + predictor));
+		tk2 = h*(i-1);
+		corrector = (u + ((h/2)*(evaluarFuncion(tk2) + evaluarFuncion(tk)));
 		dataY2.push(corrector);
 		
 		u = corrector;
