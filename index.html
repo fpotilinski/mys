@@ -155,7 +155,7 @@ function ejecutar(){
 		return math.evaluate(funcion, scope);
 	}catch(err){
 			alert(err.message);
-		}
+	}
  };
  
  function euler(){
@@ -173,10 +173,10 @@ function ejecutar(){
 	var tk = 0;
 	for (i = to; i <= k; i+h){
 		dataX.push(i);
-		e = (u + h*(evaluarFuncion(tk)));
+		e = (u + h*(evaluarFuncion(i)));
 		dataY.push(e);
 		u = e;
-		tk = (i);
+
 	}
 	 board.create('curve', [dataX,dataY],{strokeColor:'blue',strokeWidth:2});
 	 
