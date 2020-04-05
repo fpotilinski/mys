@@ -185,7 +185,7 @@ function ejecutar(){
 	var tN = document.getElementById('tN').value;
 	var h = ((tN-to)/k);
 	var i;
-	var u = 0;
+	var u = xo;
 	var e = 0;
 	for (i = to; i <= k; i++){
 		dataX.push(i*h);
@@ -216,7 +216,11 @@ function ejecutar(){
 	var corrector = 0;
 	for (i = to; i <= k; i++){
 		dataX2.push(i*h);
-		corrector = (u + (h*(evaluarFuncion(h*(i+1)) + evaluarFuncion(h*(i-1)))/2));
+		if (i == to){
+			corrector = u;
+		}else{
+			corrector = (u + (h*(evaluarFuncion(h*(i+1)) + evaluarFuncion(h*(i-1)))/2));
+		}
 		dataY2.push(corrector);
 		u = corrector;
 	}
