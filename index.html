@@ -186,7 +186,7 @@ function ejecutar(){
 	var h = ((tN-to)/k);
 	
 	var i;
-	var u = 0;
+	var u = xo;
 	
 	var tk = 0;
 	var e = 0;
@@ -214,24 +214,18 @@ function ejecutar(){
 	var h = ((tN-to)/k);
 	
 	var i;
-	var u = 0;
+	var u = xo;
 	
-	var tk = 0;
 	var predictor = 0;
 	var corrector = 0;
 	for (i = 0; i <= k; i++){
 		dataX2.push(i*h);
 		
-		predictor = (u + h*(evaluarFuncion(tk)));
+		predictor = (u + h*(evaluarFuncion(h(i-1))));
 		
-		tk2 = h*(i+1);
-		corrector = (u + (h*(evaluarFuncion(tk2) + evaluarFuncion(tk))/2));
+		corrector = (u + (h*(evaluarFuncion(h*(i+1)) + evaluarFuncion(h*(i-1)))/2));
 		dataY2.push(corrector);
-		
 		u = corrector;
-		
-		tk = (h*i);
-		
 	}
 	 board.create('curve', [dataX2,dataY2],{strokeColor:'red',strokeWidth:2});
 	 
