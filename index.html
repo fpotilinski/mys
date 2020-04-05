@@ -184,21 +184,14 @@ function ejecutar(){
 	var to = document.getElementById('to').value;
 	var tN = document.getElementById('tN').value;
 	var h = ((tN-to)/k);
-	
 	var i;
 	var u = xo;
-	
-	var tk = 0;
 	var e = 0;
 	for (i = to; i <= k; i++){
 		dataX.push(i*h);
-		
 		e = (u + h*(evaluarFuncion(h*(i-1))));
 		dataY.push(e);
-		
 		u = e;
-
-		
 	}
 	 board.create('curve', [dataX,dataY],{strokeColor:'blue',strokeWidth:2});
 	 
@@ -215,14 +208,10 @@ function ejecutar(){
 	
 	var i;
 	var u = xo;
-	
 	var predictor = 0;
 	var corrector = 0;
 	for (i = to; i <= k; i++){
 		dataX2.push(i*h);
-		
-		predictor = (u + h*(evaluarFuncion(h(i-1))));
-		
 		corrector = (u + (h*(evaluarFuncion(h*(i+1)) + evaluarFuncion(h*(i-1)))/2));
 		dataY2.push(corrector);
 		u = corrector;
