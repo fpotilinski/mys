@@ -189,7 +189,11 @@ function ejecutar(){
 	var e = 0;
 	for (i = to; i <= k; i++){
 		dataX.push(i*h);
-		e = (u + h*(evaluarFuncion(h*(i-1))));
+		if (i == to){
+			e = u;
+		}else{
+			e = (u + h*(evaluarFuncion(h*(i-1))));
+		}
 		dataY.push(e);
 		u = e;
 	}
