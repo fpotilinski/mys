@@ -170,8 +170,7 @@ function ejecutar(){
 	var i = to;
 	var u = xo;
 	var e = 0;
-	var tk = 0;
-	while (i <= tN){
+	while (i < tN){
 		dataX.push(i);
 		e = (u + h*(evaluarFuncion(i)));
 		dataY.push(e);
@@ -194,8 +193,7 @@ function ejecutar(){
 	var i = to;
 	var u = xo;
 	var corrector = 0;
-	var tk = 0;
-	while(i <= tN)){
+	while(i < tN)){
 		dataX2.push(i*h);
 		corrector = (u + (h*(evaluarFuncion(h*(i+h)) + evaluarFuncion(h*(i)))/2));
 		dataY2.push(corrector);
