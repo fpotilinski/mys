@@ -170,19 +170,13 @@ function ejecutar(){
 	var i;
 	var u = xo;
 	var e = 0;
+	var tk = 0;
 	for (i = 0; i <= k; i++){
 		dataX.push(i*h);
-		if (i == to){
-			e = u;
-		}else{
-			if (i == (to+1)){
-				e = (u + h*(u));
-			}else{
-				e = (u + h*(evaluarFuncion(h*(i-1))));
-			}
-		}
+		e = (u + h*(evaluarFuncion(h*(tk))));
 		dataY.push(e);
 		u = e;
+		tk = (i*h);
 	}
 	 board.create('curve', [dataX,dataY],{strokeColor:'blue',strokeWidth:2});
 	 
