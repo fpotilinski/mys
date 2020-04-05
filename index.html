@@ -173,7 +173,7 @@ function ejecutar(){
 	var tk = 0;
 	for (i = 0; i <= k; i++){
 		dataX.push(i*h);
-		e = (u + h*(evaluarFuncion(h*(tk))));
+		e = (u + h*(evaluarFuncion(tk)));
 		dataY.push(e);
 		u = e;
 		tk = (i*h);
