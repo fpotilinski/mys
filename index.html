@@ -193,12 +193,11 @@ function ejecutar(){
 	for (i = to; i <= k; i++){
 		dataX.push(i*h);
 		
-		e = (u + h*(evaluarFuncion(tk)));
+		e = (u + h*(evaluarFuncion(h*(i-1)));
 		dataY.push(e);
 		
 		u = e;
-		
-		tk = (h*i);
+
 		
 	}
 	 board.create('curve', [dataX,dataY],{strokeColor:'blue',strokeWidth:2});
