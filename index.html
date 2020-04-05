@@ -171,12 +171,12 @@ function ejecutar(){
 	var u = xo;
 	var e = 0;
 	var tk = 0;
-	for (i = 0; i <= k; i++){
-		dataX.push(i*h);
+	for (i = to; i <= k; i+h){
+		dataX.push(i);
 		e = (u + h*(evaluarFuncion(tk)));
 		dataY.push(e);
 		u = e;
-		tk = (i*h);
+		tk = (i);
 	}
 	 board.create('curve', [dataX,dataY],{strokeColor:'blue',strokeWidth:2});
 	 
