@@ -115,12 +115,12 @@ var resize = function () {
 	board.resizeContainer(board.containerObj.clientWidth, board.containerObj.clientHeight, true);
 	board.fullUpdate();
 };
-
 window.onresize = resize;
 </script>
 
 <script type="text/javascript">
 function ejecutar(){
+	board.clearTraces();
 	var validacion = validarFunction();
 	if (validacion == true){
 		euler();
@@ -159,13 +159,13 @@ function ejecutar(){
  };
  
  function euler(){
-	var board = JXG.JSXGraph.initBoard('box', {boundingbox: [-10, 10, 10, -10], showCopyright: false, axis:true});
+	board = JXG.JSXGraph.initBoard('box', {boundingbox: [-10, 10, 10, -10], showCopyright: false, axis:true});
  	var dataX = [];
 	var dataY = [];
-	var k = document.getElementById('k').value;
-	var xo = document.getElementById('xo').value;
-	var to = document.getElementById('to').value;
-	var tN = document.getElementById('tN').value;
+	var k = parseInt(document.getElementById('k').value);
+	var xo = parseInt(document.getElementById('xo').value);
+	var to = parseInt(document.getElementById('to').value);
+	var tN = parseInt(document.getElementById('tN').value);
 	var h = ((tN-to)/k);
 	var i = to;
 	var u = xo;
@@ -184,21 +184,21 @@ function ejecutar(){
  function eulerMejorado(){
  	var dataX2 = [];
 	var dataY2 = [];
-	var k = document.getElementById('k').value;
-	var xo = document.getElementById('xo').value;
-	var to = document.getElementById('to').value;
-	var tN = document.getElementById('tN').value;
+	var k = parseInt(document.getElementById('k').value);
+	var xo = parseInt(document.getElementById('xo').value);
+	var to = parseInt(document.getElementById('to').value);
+	var tN = parseInt(document.getElementById('tN').value);
 	var h = ((tN-to)/k);
 	
 	var i = to;
 	var u = xo;
 	var corrector = 0;
-	while(i < tN)){
-		dataX2.push(i*h);
-		corrector = (u + (h*(evaluarFuncion(h*(i+h)) + evaluarFuncion(h*(i)))/2));
+	while(i < tN){
+		dataX2.push(i);
+		corrector = (u + (h*(evaluarFuncion(i+h) + evaluarFuncion(i))/2));
 		dataY2.push(corrector);
 		u = corrector;
-		i = i+h;
+		i = i + h;
 	}
 	 board.create('curve', [dataX2,dataY2],{strokeColor:'red',strokeWidth:2});
 	 
