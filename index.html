@@ -167,16 +167,16 @@ function ejecutar(){
 	var to = document.getElementById('to').value;
 	var tN = document.getElementById('tN').value;
 	var h = ((tN-to)/k);
-	var i;
+	var i = to;
 	var u = xo;
 	var e = 0;
 	var tk = 0;
-	for (i = to; i <= tN; i+h){
+	while (i <= tN){
 		dataX.push(i);
 		e = (u + h*(evaluarFuncion(i)));
 		dataY.push(e);
 		u = e;
-
+		i = i+h;
 	}
 	 board.create('curve', [dataX,dataY],{strokeColor:'blue',strokeWidth:2});
 	 
@@ -191,15 +191,16 @@ function ejecutar(){
 	var tN = document.getElementById('tN').value;
 	var h = ((tN-to)/k);
 	
-	var i;
+	var i = to;
 	var u = xo;
 	var corrector = 0;
 	var tk = 0;
-	for (i = to; i <= tN; i+h){
+	while(i <= tN)){
 		dataX2.push(i*h);
 		corrector = (u + (h*(evaluarFuncion(h*(i+h)) + evaluarFuncion(h*(i)))/2));
 		dataY2.push(corrector);
 		u = corrector;
+		i = i+h;
 	}
 	 board.create('curve', [dataX2,dataY2],{strokeColor:'red',strokeWidth:2});
 	 
