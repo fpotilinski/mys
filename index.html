@@ -41,18 +41,19 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">Home
+            <a class="nav-link active" href="index.html">Home
+			<span class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">About</a>
           </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Problema del Valor Inicial</a>
-			<span class="sr-only">(current)</span>
+          <li class="nav-item">
+            <a class="nav-link" href="pvi.html">Problema del Valor Inicial</a>
+			
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Integración Numérica</a>
+            <a class="nav-link" href="montecarlo.html">Integración Numérica</a>
           </li>
         </ul>
       </div>
@@ -62,149 +63,7 @@
     <!-- Page Content -->
 	<div class="container">
   
-		<div class="row">
-			<div class="col-lg-12 text-center">
-			<h1 class="mt-5">Problema del Valor Inicial</h1>
-			<p class="lead">Cálculo de EDO con Métodos Numéricos</p>
-
-			</div>
-		  
-			<div class="col-lg-12 text-center">
-				<div class="card">
-					<div class="card-header">
-						Parameters
-					</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="col-sm">
-								<label for="exampleInputEmail1">Function</label>
-								<INPUT TYPE="text" NAME="ft" Id="ft" class="form-control" value="2t">
-							</div>
-							<div class="col-sm">
-								<label for="exampleInputEmail1">to</label>
-								<INPUT TYPE="text" NAME="to" Id="to" class="form-control">
-							</div>
-							<div class="col-sm">
-								<label for="exampleInputEmail1">TN</label>
-								<INPUT TYPE="text" NAME="tN" Id="tN" class="form-control">
-							</div>
-							<div class="col-sm">
-								<label for="exampleInputEmail1">xo</label>
-								<INPUT TYPE="text" NAME="xo" Id="xo" class="form-control">
-							</div>
-							<div class="col-sm">
-								<label for="exampleInputEmail1">k</label>
-								<INPUT TYPE="text" NAME="k" Id="k" class="form-control">
-							</div>	
-						</div>	
-						<button type="button" class="btn btn-info" onclick="ejecutar()">¡Calcular!</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="card">
-			<div class="card-body">
-				<div id="box" class="jxgbox graphbox"></div>
-			</div>
-		</div>
 	</div>		
-
-<script>
-var board = JXG.JSXGraph.initBoard('box', {boundingbox: [-10, 10, 10, -10], showCopyright: false, axis:true});
-var resize = function () {
-	board.resizeContainer(board.containerObj.clientWidth, board.containerObj.clientHeight, true);
-	board.fullUpdate();
-};
-window.onresize = resize;
-</script>
-
-<script type="text/javascript">
-function ejecutar(){
-	board.clearTraces();
-	var validacion = validarFunction();
-	if (validacion == true){
-		euler();
-		eulerMejorado();
-	}
- };
- 
- function validarFunction(){
-	var funcion = document.getElementById('ft').value;
-	
-	const scope = {
-		x: 0
-	}
-
-	try{
-		math.evaluate(funcion, scope);
-		return true;
-	}catch(err){
-			alert(err.message);
-			return false;
-		}
- };
- 
-  function evaluarFuncion(valor){
-	var funcion = document.getElementById('ft').value;
-	
-	const scope = {
-		x: valor
-	}
-
-	try{
-		return math.evaluate(funcion, scope);
-	}catch(err){
-			alert(err.message);
-	}
- };
- 
- function euler(){
-	board = JXG.JSXGraph.initBoard('box', {boundingbox: [-10, 10, 10, -10], showCopyright: false, axis:true});
- 	var dataX = [];
-	var dataY = [];
-	var k = parseInt(document.getElementById('k').value);
-	var xo = parseInt(document.getElementById('xo').value);
-	var to = parseInt(document.getElementById('to').value);
-	var tN = parseInt(document.getElementById('tN').value);
-	var h = ((tN-to)/k);
-	var i = to;
-	var u = xo;
-	var e = 0;
-	while (i < tN){
-		dataX.push(i);
-		e = (u + h*(evaluarFuncion(i)));
-		dataY.push(e);
-		u = e;
-		i = i+h;
-	}
-	 board.create('curve', [dataX,dataY],{strokeColor:'blue',strokeWidth:2});
-	 
- };
- 
- function eulerMejorado(){
- 	var dataX2 = [];
-	var dataY2 = [];
-	var k = parseInt(document.getElementById('k').value);
-	var xo = parseInt(document.getElementById('xo').value);
-	var to = parseInt(document.getElementById('to').value);
-	var tN = parseInt(document.getElementById('tN').value);
-	var h = ((tN-to)/k);
-	
-	var i = to;
-	var u = xo;
-	var corrector = 0;
-	while(i < tN){
-		dataX2.push(i);
-		corrector = (u + (h*(evaluarFuncion(i+h) + evaluarFuncion(i))/2));
-		dataY2.push(corrector);
-		u = corrector;
-		i = i + h;
-	}
-	 board.create('curve', [dataX2,dataY2],{strokeColor:'red',strokeWidth:2});
-	 
- };
- 
- 
   
 </script>
 

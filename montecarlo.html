@@ -1,0 +1,265 @@
+<html lang="en">
+
+<head>
+<meta charset="UTF-8"/>
+ <link rel="stylesheet" type="text/css" href="jsxgraph.css" />
+ <script type="text/javascript" src="jsxgraphcore.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/mathjs@6.6.2/dist/math.min.js" type="text/javascript"></script>
+ 
+    <style>
+        .graphbox {
+            width: 100%;
+            height: 50%;
+            padding-bottom: 25%;
+        }
+    </style>
+ 
+ 
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Modelado y Simulación | UADE 2020</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+ 
+</head>
+
+
+<body>
+
+<!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Modelado y Simulación</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Problema del Valor Inicial</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Integración Numérica</a>
+			<span class="sr-only">(current)</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Page Content -->
+	<div class="container">
+  
+		<div class="row">
+			<div class="col-lg-12 text-center">
+			<h1 class="mt-5">Integración Numérica</h1>
+			<p class="lead">Cálculo de Integral con Método Montecarlo</p>
+
+			</div>
+		  
+			<div class="col-lg-12 text-center">
+				<div class="card">
+					<div class="card-header">
+						Parameters
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-sm">
+								<label for="exampleInputEmail1">Function</label>
+								<INPUT TYPE="text" NAME="ft" Id="ft" class="form-control" value="2t">
+							</div>
+							<div class="col-sm">
+								<label for="exampleInputEmail1">a</label>
+								<INPUT TYPE="text" NAME="a" Id="a" class="form-control">
+							</div>
+							<div class="col-sm">
+								<label for="exampleInputEmail1">b</label>
+								<INPUT TYPE="text" NAME="b" Id="b" class="form-control">
+							</div>
+							<div class="col-sm">
+								<label for="exampleInputEmail1">Disparos</label>
+								<INPUT TYPE="text" NAME="disparos" Id="disparos" class="form-control">
+							</div>
+							<div class="col-sm">
+								<label for="exampleInputEmail1">Resultado</label>
+								<INPUT TYPE="text" NAME="resultado" Id="resultado" class="form-control">
+							</div>
+						</div>	
+						<button type="button" class="btn btn-info" onclick="ejecutar()">¡Calcular!</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card">
+			<div class="card-body">
+				<div id="box" class="jxgbox graphbox"></div>
+			</div>
+		</div>
+	</div>		
+
+<script>
+var board = JXG.JSXGraph.initBoard('box', {boundingbox: [-10, 10, 10, -10], showCopyright: false, axis:true});
+var p;
+var pol;
+var graph;
+board.removeObject(p);
+board.removeObject(pol);
+board.removeObject(graph);
+var resize = function () {
+	board.resizeContainer(board.containerObj.clientWidth, board.containerObj.clientHeight, true);
+	board.fullUpdate();
+};
+window.onresize = resize;
+</script>
+
+<script type="text/javascript">
+function ejecutar(){
+	board.clearTraces();
+	board.removeObject(pol);
+	board.removeObject(graph);
+	var validacion = validarFunction();
+	if (validacion == true){
+		montecarlo();
+	}
+ };
+ 
+ 
+ function maxF(){
+	var a = parseInt(document.getElementById('a').value);
+	var b = parseInt(document.getElementById('b').value);
+	var i = a;
+	var max = 0;
+	var aux = 0;
+	while (i<=b){
+		aux = evaluarFuncion(i);
+		if (aux > max){
+			max = aux;
+		}
+		i++;
+	}
+	return max;
+ };
+ 
+ function minF(){
+	var a = parseInt(document.getElementById('a').value);
+	var b = parseInt(document.getElementById('b').value);
+	var i = a;
+	var min = 0;
+	var aux = 0;
+	while (i<=b){
+		aux = evaluarFuncion(i);
+		if (aux < min){
+			 min = aux;
+		}
+		i++;
+	}
+	return min;
+ };
+ 
+ function montecarlo(){
+	var h1 = (1.10)*maxF();
+	var h2 = (1.10)*minF();
+	var a = parseInt(document.getElementById('a').value);
+	var b = parseInt(document.getElementById('b').value);
+	var funcion = document.getElementById('ft').value;
+	var disparos = parseInt(document.getElementById('disparos').value);
+	var aciertos = 0;
+	var x = 0;
+	var y = 0;
+	var res = 0;
+	
+	var p = [[a, h1], [a, h2], [b, h2], [b, h1]];
+	pol = board.create('polygon', p, {hasInnerPoints: true});
+	
+	var i = 0;
+	
+	var dataX2 = [];
+	var dataY2 = [];
+	for(i=a;i<=b;i++){
+		dataX2.push(i);
+		dataY2.push(evaluarFuncion(i));
+	}
+	
+var txtraw = document.getElementById('ft').value;
+  f = board.jc.snippet(txtraw, true, 'x', true);
+  curve = board.create('functiongraph',[f,
+                function(){ 
+                  var c = new JXG.Coords(JXG.COORDS_BY_SCREEN,[0,0],board);
+                  return c.usrCoords[1];
+                },
+                function(){ 
+                  var c = new JXG.Coords(JXG.COORDS_BY_SCREEN,[board.canvasWidth,0],board);
+                  return c.usrCoords[1];
+                }
+              ],{name:txtraw, withLabel:true});
+	
+	for (i=0; i<disparos; i++){
+		y = math.random(h2,h1);
+		x = math.random(a,b);
+		res = evaluarFuncion(x);
+		
+		var abs = res;
+		if ((y<abs && res > 0 && y > 0) || (y>abs && res < 0 && y <0) ){
+			var p1 = board.create('point', [x, y], {face:'x', fillColor:'green', size:2, withLabel:false, fixed:true, strokeColor:'green'});
+			aciertos++;
+		}else{
+			var p2 = board.create('point', [x, y], {face:'x', fillColor:'red', size:2, withLabel:false, fixed:true, strokeColor:'red'});
+		}
+	}
+	
+	var areaCaja = (math.abs(h1) + math.abs(h2))*(b-a);
+	var integral = (aciertos/disparos)*areaCaja;
+	document.getElementById('resultado').value = integral;
+	alert(integral);
+ }
+ 
+ function validarFunction(){
+	var funcion = document.getElementById('ft').value;
+	
+	const scope = {
+		x: 0
+	}
+
+	try{
+		math.evaluate(funcion, scope);
+		return true;
+	}catch(err){
+			alert(err.message);
+			return false;
+		}
+ };
+ 
+  function evaluarFuncion(valor){
+	var funcion = document.getElementById('ft').value;
+	
+	const scope = {
+		x: valor
+	}
+
+	try{
+		return math.evaluate(funcion, scope);
+	}catch(err){
+			alert(err.message);
+	}
+ }; 
+</script>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.slim.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>
