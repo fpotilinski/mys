@@ -65,7 +65,7 @@
 		<div class="row">
 			<div class="col-lg-12 text-center">
 			<h1 class="mt-5">Integración Numérica</h1>
-			<p class="lead">Cálculo de Integral con Método Montecarlo</p>
+			<p class="lead">Cálculo de Integral con Método de Trapecios</p>
 
 			</div>
 		  
@@ -89,8 +89,8 @@
 								<INPUT TYPE="text" NAME="b" Id="b" class="form-control">
 							</div>
 							<div class="col-sm">
-								<label for="exampleInputEmail1">Disparos</label>
-								<INPUT TYPE="text" NAME="disparos" Id="disparos" class="form-control">
+								<label for="exampleInputEmail1">n</label>
+								<INPUT TYPE="text" NAME="n" Id="n" class="form-control">
 							</div>
 							<div class="col-sm">
 								<label for="exampleInputEmail1">Resultado</label>
@@ -111,12 +111,6 @@
 
 <script>
 var board = JXG.JSXGraph.initBoard('box', {boundingbox: [-10, 10, 10, -10], showCopyright: false, axis:true});
-var p;
-var pol;
-var graph;
-board.removeObject(p);
-board.removeObject(pol);
-board.removeObject(graph);
 var resize = function () {
 	board.resizeContainer(board.containerObj.clientWidth, board.containerObj.clientHeight, true);
 	board.fullUpdate();
@@ -126,76 +120,26 @@ window.onresize = resize;
 
 <script type="text/javascript">
 function ejecutar(){
-	board.clearTraces();
-	board.removeObject(pol);
-	board.removeObject(graph);
 	var validacion = validarFunction();
 	if (validacion == true){
-		montecarlo();
+		trapecios();
 	}
  };
  
- 
- function maxF(){
-	var a = parseInt(document.getElementById('a').value);
-	var b = parseInt(document.getElementById('b').value);
-	var i = a;
-	var max = 0;
-	var aux = 0;
-	while (i<=b){
-		aux = evaluarFuncion(i);
-		if (aux > max){
-			max = aux;
-		}
-		i++;
-	}
-	return max;
- };
- 
- function minF(){
-	var a = parseInt(document.getElementById('a').value);
-	var b = parseInt(document.getElementById('b').value);
-	var i = a;
-	var min = 0;
-	var aux = 0;
-	while (i<=b){
-		aux = evaluarFuncion(i);
-		if (aux < min){
-			 min = aux;
-		}
-		i++;
-	}
-	return min;
- };
- 
- function montecarlo(){
-	var h1 = (1.10)*maxF();
-	var h2 = (1.10)*minF();
+ function trapecios(){
+ alert("1");
 	var a = parseInt(document.getElementById('a').value);
 	var b = parseInt(document.getElementById('b').value);
 	var funcion = document.getElementById('ft').value;
-	var disparos = parseInt(document.getElementById('disparos').value);
-	var aciertos = 0;
-	var errores = 0;
+	var n = parseInt(document.getElementById('n').value);
 	var x = 0;
 	var y = 0;
 	var res = 0;
+	alert("2");
 	
-	var p = [[a, h1], [a, h2], [b, h2], [b, h1]];
-	pol = board.create('polygon', p, {fixed:true, hasInnerPoints:false});
-	
-	var i = 0;
-	
-	var dataX2 = [];
-	var dataY2 = [];
-	for(i=a;i<=b;i++){
-		dataX2.push(i);
-		dataY2.push(evaluarFuncion(i));
-	}
-	
-var txtraw = document.getElementById('ft').value;
-  f = board.jc.snippet(txtraw, true, 'x', true);
-  curve = board.create('functiongraph',[f,
+	var txtraw = document.getElementById('ft').value;
+	f = board.jc.snippet(txtraw, true, 'x', true);
+	curve = board.create('functiongraph',[f,
                 function(){ 
                   var c = new JXG.Coords(JXG.COORDS_BY_SCREEN,[0,0],board);
                   return c.usrCoords[1];
@@ -206,26 +150,21 @@ var txtraw = document.getElementById('ft').value;
                 }
               ],{name:txtraw, withLabel:true});
 	
-	for (i=0; i<disparos; i++){
-		y = math.random(h2,h1);
-		x = math.random(a,b);
-		res = evaluarFuncion(x);
-		
-		var abs = res;
-		if ((y<abs && res > 0 && y > 0) || (y>abs && res < 0 && y <0) ){
-			var p1 = board.create('point', [x, y], {face:'x', fillColor:'green', size:2, withLabel:false, fixed:true, strokeColor:'green'});
-			aciertos++;
-		}else{
-			var p2 = board.create('point', [x, y], {face:'x', fillColor:'red', size:2, withLabel:false, fixed:true, strokeColor:'red'});
-			errores++;
-		}
-	}
+	alert("3");
+	var h = (b-a)/n;
 	
-	var areaCaja = (math.abs(h1) + math.abs(h2))*(b-a);
-	var integral = ((aciertos)/disparos)*areaCaja;
-	document.getElementById('resultado').value = integral;
-	alert(integral);
- }
+	var i = a;
+	var p;
+	var vertices;
+	while(i <= b){
+		p = board.create('point', [i,evaluarFuncion(i)]);
+		vertices.push(p);
+		i=i+h;
+	}
+	alert(p);
+	var pol = board.create('polygon', vertices, {fixed:true, hasInnerPoints:false});
+	
+}
  
  function validarFunction(){
 	var funcion = document.getElementById('ft').value;
