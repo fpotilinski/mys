@@ -111,41 +111,33 @@
 	<br>
 	<br>
 
-    	<footer class="footer">
-      <div class="container">
-        <span class="text-muted"><small>Made with jsxgraph.js, math.js by @fpotilinski & @flotero</small></span>
-      </div>
-    </footer>
+	<footer class="footer">
+		<div class="container">
+			<span class="text-muted"><small>Made with jsxgraph.js, math.js by @fpotilinski & @flotero</small></span>
+		</div>
+	</footer>
   
 	
 <script>
-var board = JXG.JSXGraph.initBoard('box', {boundingbox: [-10, 10, 10, -10], showCopyright: false, axis:true});
-var p;
-var pol;
-var graph;
-board.removeObject(p);
-board.removeObject(pol);
-board.removeObject(graph);
-
-var resize = function () {
-	board.resizeContainer(board.containerObj.clientWidth, board.containerObj.clientHeight, true);
-	board.fullUpdate();
-};
-window.onresize = resize;
+	var board = JXG.JSXGraph.initBoard('box', {boundingbox: [-10, 10, 10, -10], showCopyright: false, axis:true});
+	var p;
+	var pol;
+	
+	JXG.JSXGraph.freeBoard(box);
+	var resize = function () {
+		board.resizeContainer(board.containerObj.clientWidth, board.containerObj.clientHeight, true);
+		board.fullUpdate();
+	};
+	window.onresize = resize;
 </script>
 
 <script type="text/javascript">
 function ejecutar(){
-	
-	board.removeObject(pol);
-	board.removeObject(graph);
-	board.clearTraces();
 	var validacion = validarFunction();
 	if (validacion == true){
 		montecarlo();
 	}
  };
- 
  
  function maxF(){
 	var a = parseInt(document.getElementById('a').value);
@@ -180,6 +172,9 @@ function ejecutar(){
  };
  
  function montecarlo(){
+	JXG.JSXGraph.freeBoard(board);
+	board = JXG.JSXGraph.initBoard('box', {boundingbox: [-10, 10, 10, -10], showCopyright: false, axis:true});
+	
 	var h1 = (1.10)*maxF();
 	var h2 = (1.10)*minF();
 	var a = parseInt(document.getElementById('a').value);
@@ -194,7 +189,9 @@ function ejecutar(){
 	var y = 0;
 	var res = 0;
 	
-	var p = [[a, h1], [a, h2], [b, h2], [b, h1]];
+	board.removeObject(pol);
+	
+	p = [[a, h1], [a, h2], [b, h2], [b, h1]];
 	pol = board.create('polygon', p, {fixed:true, hasInnerPoints:false});
 	
 	var i = 0;
@@ -206,10 +203,10 @@ function ejecutar(){
 		dataY2.push(evaluarFuncion(i));
 	}
 	
-var txtraw = document.getElementById('ft').value;
+    var txtraw = document.getElementById('ft').value;
 
-  f = board.jc.snippet(txtraw, true, 'x', true);
-  curve = board.create('functiongraph',[f,
+    f = board.jc.snippet(txtraw, true, 'x', true);
+    curve = board.create('functiongraph',[f,
                 function(){ 
                   var c = new JXG.Coords(JXG.COORDS_BY_SCREEN,[0,0],board);
                   return c.usrCoords[1];
@@ -246,7 +243,6 @@ var txtraw = document.getElementById('ft').value;
 	var areaCaja = (math.abs(h1) + math.abs(h2))*(b-a);
 	var integral = ((aciertosPositivos-aciertosNegativos)/disparos)*areaCaja;
 	document.getElementById('resultado').value = integral;
-	
  }
  
  function validarFunction(){
@@ -280,10 +276,9 @@ var txtraw = document.getElementById('ft').value;
  }; 
 </script>
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.slim.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.slim.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
