@@ -9,8 +9,8 @@
     <style>
         .graphbox {
             width: 100%;
-            height: 50%;
-            padding-bottom: 25%;
+            height: 50px;
+            padding-bottom: 50%;
         }
     </style>
  
@@ -41,14 +41,11 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">Home
+            <a class="nav-link" href="index.html">Home
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Problema del Valor Inicial</a>
+            <a class="nav-link" href="pvi2.html">Problema del Valor Inicial</a>
           </li>
           <li class="nav-item active">
             <a class="nav-link" href="#">Integración Numérica</a>
@@ -78,19 +75,19 @@
 						<div class="row">
 							<div class="col-sm">
 								<label for="exampleInputEmail1">Function</label>
-								<INPUT TYPE="text" NAME="ft" Id="ft" class="form-control" value="2t">
+								<INPUT TYPE="text" NAME="ft" Id="ft" class="form-control" value="x">
 							</div>
 							<div class="col-sm">
 								<label for="exampleInputEmail1">a</label>
-								<INPUT TYPE="text" NAME="a" Id="a" class="form-control">
+								<INPUT TYPE="text" NAME="a" Id="a" class="form-control" value="-2">
 							</div>
 							<div class="col-sm">
 								<label for="exampleInputEmail1">b</label>
-								<INPUT TYPE="text" NAME="b" Id="b" class="form-control">
+								<INPUT TYPE="text" NAME="b" Id="b" class="form-control" value="2">
 							</div>
 							<div class="col-sm">
 								<label for="exampleInputEmail1">Disparos</label>
-								<INPUT TYPE="text" NAME="disparos" Id="disparos" class="form-control">
+								<INPUT TYPE="text" NAME="disparos" Id="disparos" class="form-control" value="5000">
 							</div>
 							<div class="col-sm">
 								<label for="exampleInputEmail1">Resultado</label>
@@ -117,6 +114,7 @@ var graph;
 board.removeObject(p);
 board.removeObject(pol);
 board.removeObject(graph);
+
 var resize = function () {
 	board.resizeContainer(board.containerObj.clientWidth, board.containerObj.clientHeight, true);
 	board.fullUpdate();
@@ -126,9 +124,10 @@ window.onresize = resize;
 
 <script type="text/javascript">
 function ejecutar(){
-	board.clearTraces();
+	
 	board.removeObject(pol);
 	board.removeObject(graph);
+	board.clearTraces();
 	var validacion = validarFunction();
 	if (validacion == true){
 		montecarlo();
@@ -175,8 +174,10 @@ function ejecutar(){
 	var b = parseInt(document.getElementById('b').value);
 	var funcion = document.getElementById('ft').value;
 	var disparos = parseInt(document.getElementById('disparos').value);
-	var aciertos = 0;
-	var errores = 0;
+	var aciertosPositivos = 0;
+	var aciertosNegativos = 0;
+	var erroresPositivos = 0;
+	var erroresNegativos = 0;
 	var x = 0;
 	var y = 0;
 	var res = 0;
@@ -194,6 +195,7 @@ function ejecutar(){
 	}
 	
 var txtraw = document.getElementById('ft').value;
+
   f = board.jc.snippet(txtraw, true, 'x', true);
   curve = board.create('functiongraph',[f,
                 function(){ 
@@ -214,17 +216,25 @@ var txtraw = document.getElementById('ft').value;
 		var abs = res;
 		if ((y<abs && res > 0 && y > 0) || (y>abs && res < 0 && y <0) ){
 			var p1 = board.create('point', [x, y], {face:'x', fillColor:'green', size:2, withLabel:false, fixed:true, strokeColor:'green'});
-			aciertos++;
+			if (y < 0){
+				aciertosNegativos++;
+			}else{
+				aciertosPositivos++;
+			}
 		}else{
 			var p2 = board.create('point', [x, y], {face:'x', fillColor:'red', size:2, withLabel:false, fixed:true, strokeColor:'red'});
-			errores++;
+			if (y < 0){
+				erroresNegativos++;
+			}else{
+				erroresPositivos++;
+			}
 		}
 	}
 	
 	var areaCaja = (math.abs(h1) + math.abs(h2))*(b-a);
-	var integral = ((aciertos)/disparos)*areaCaja;
+	var integral = ((aciertosPositivos-aciertosNegativos)/disparos)*areaCaja;
 	document.getElementById('resultado').value = integral;
-	alert(integral);
+	
  }
  
  function validarFunction(){
