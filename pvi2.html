@@ -95,6 +95,22 @@
 								<INPUT TYPE="text" NAME="k" Id="k" class="form-control" value="100">
 							</div>	
 						</div>	
+						<div class="row">
+							<div class="col-sm">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" value="true" checked id="checkEuler">
+									<label class="form-check-label" for="checkEuler">
+									Euler
+									</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" value="true" checked id="checkEulerMejorado">
+									<label class="form-check-label" for="checkEulerMejorado">
+									Euler Mejorado
+									</label>
+								</div>
+							</div>
+						</div>	
 						<button type="button" class="btn btn-info" onclick="ejecutar()">¡Calcular!</button>
 					
 					</div>
@@ -162,8 +178,12 @@
 var board = JXG.JSXGraph.initBoard('box', {boundingbox: [-10, 10, 10, -10], showCopyright: false, axis:true, grid: false});
 var curvaEuler = board.create('curve', [dataX,dataY],{strokeColor:'blue',strokeWidth:2});
 var curvaEulerMejorado = board.create('curve', [dataX,dataY],{strokeColor:'red',strokeWidth:2});
+var t1 = board.create('text',[4,5,""], {strokeColor:'blue'});
+var t2 = board.create('text',[4,5,""], {strokeColor:'blue'});
 board.removeObject(curvaEuler);
 board.removeObject(curvaEulerMejorado);
+board.removeObject(t1);
+board.removeObject(t2);
 var resize = function () {
 	board.resizeContainer(board.containerObj.clientWidth, board.containerObj.clientHeight, true);
 	board.fullUpdate();
@@ -173,12 +193,18 @@ window.onresize = resize;
 
 <script type="text/javascript">
 function ejecutar(){
-	board.clearTraces();
 	board.removeObject(curvaEuler);
+	board.removeObject(curvaEulerMejorado);
+	board.removeObject(t1);
+	board.removeObject(t2);
 	var validacion = validarFunction();
 	if (validacion == true){
-		euler();
-		eulerMejorado();
+		if (document.getElementById('checkEuler').checked){
+			euler();
+		}
+		if (document.getElementById('checkEulerMejorado').checked){
+			eulerMejorado();
+		}
 	}
  };
  
@@ -213,8 +239,6 @@ function ejecutar(){
  };
  
  function euler(){
-	
-	board.removeObject(curvaEuler);
  	var dataX = [];
 	var dataY = [];
 	
@@ -248,12 +272,11 @@ function ejecutar(){
 		r = r+h;
 	}
 	curvaEuler = board.create('curve', [dataX,dataY],{strokeColor:'blue',strokeWidth:2, name:'Euler', withLabel:false});
-	 var t1 = board.create('text',[5,5,"Euler"], {strokeColor:'blue'});
+	t1 = board.create('text',[4,5,"Euler"], {strokeColor:'blue'});
  };
  
   function eulerMejorado(){
-	
-	board.removeObject(curvaEulerMejorado);
+
  	var dataX2 = [];
 	var dataY2 = [];
 	
@@ -287,7 +310,7 @@ function ejecutar(){
 		r = r+h;
 	}
 	curvaEulerMejorado = board.create('curve', [dataX2,dataY2],{strokeColor:'red',strokeWidth:2, name:'EulerMejorado', withLabel:false});
-	 var t1 = board.create('text',[5,6,"Euler Mejorado"], {strokeColor:'red'});
+	t2 = board.create('text',[4,6,"Euler Mejorado"], {strokeColor:'red'});
  };
  
  
