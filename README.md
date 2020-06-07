@@ -16,9 +16,9 @@ Métodos desarrollados:
 1. Instalar [npm](https://www.npmjs.com/get-npm) y [Gulp](https://gulpjs.com/docs/en/getting-started/quick-start/) previamente en la computadora
 2. Abrir una terminal de comandos en el directorio del proyecto
 3. Correr `npm install` para instalar las dependencias
-4. Luego correr `npm start` que abrira un browser con la solución
+4. Luego correr `npm start` que abrirá un browser con la solución
 
-También, puede visitar el sitio https://fpotilinski.github.io/mys/index.html para ver el funcionamiento sin necesidad de instalación ni corre el código localmente.
+También, puede visitar el sitio https://fpotilinski.github.io/mys/index.html para ver el funcionamiento sin necesidad de instalación ni de correr el código localmente.
 
 ## Autores
 - Florencia Otero
